@@ -112,8 +112,21 @@ const HomePage = ({ onNavigate, cartOpen, setCartOpen }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar onCartOpen={() => setCartOpen(true)} onNavigate={onNavigate} />
+    <div className="min-h-screen bg-gray-900 relative">
+      {/* Background Image Overlay */}
+      <div 
+        className="fixed inset-0 z-0 opacity-20"
+        style={{
+          backgroundImage: 'url(https://img.freepik.com/premium-photo/food-with-delivery-set-dishes-diet-top-view-free-space-your-text-black-background_187166-25369.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }}
+      />
+      
+      {/* Content Wrapper */}
+      <div className="relative z-10">
+        <Navbar onCartOpen={() => setCartOpen(true)} onNavigate={onNavigate} />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {!selectedRestaurant ? (
@@ -124,9 +137,9 @@ const HomePage = ({ onNavigate, cartOpen, setCartOpen }) => {
             </div>
 
             {/* Header */}
-            <div className="mb-8">
-              <h1 className="text-3xl font-bold text-gray-800 mb-2">Order from your favorite restaurants</h1>
-              <p className="text-gray-600">Browse menus and add items from multiple vendors</p>
+            <div className="mb-8 text-center">
+              <h1 className="text-5xl font-bold text-gray-300 mb-4 drop-shadow-2xl">Order from your favorite restaurants</h1>
+              <p className="text-gray-400 text-xl">Browse menus and add items from multiple vendors</p>
             </div>
 
             {/* Filters Section */}
@@ -137,10 +150,10 @@ const HomePage = ({ onNavigate, cartOpen, setCartOpen }) => {
                 <button
                   key={cuisine}
                   onClick={() => setFilterCuisine(cuisine)}
-                  className={`px-4 py-2 rounded-lg font-medium transition ${
+                  className={`px-6 py-3 rounded-full font-bold transition-all duration-300 transform hover:scale-110 ${
                     filterCuisine === cuisine
-                      ? 'bg-orange-500 text-white shadow-md'
-                      : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                      ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-2xl shadow-orange-500/50'
+                      : 'bg-white/90 backdrop-blur-sm text-gray-800 hover:bg-orange-500 hover:text-white border-2 border-orange-400 shadow-xl'
                   }`}
                 >
                   {cuisine}
@@ -160,14 +173,14 @@ const HomePage = ({ onNavigate, cartOpen, setCartOpen }) => {
             </div>
 
             {filteredRestaurants.length === 0 && (
-              <div className="text-center py-12">
-                <p className="text-gray-500 text-lg">No restaurants found matching your filters.</p>
+              <div className="text-center py-16 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl">
+                <p className="text-gray-700 text-xl mb-2 font-semibold">No restaurants found matching your filters.</p>
                 <button 
                   onClick={() => {
                     setFilterCuisine('All');
                     setActiveFilters(null);
                   }}
-                  className="mt-4 text-orange-500 hover:text-orange-600 font-semibold"
+                  className="mt-6 px-8 py-4 bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold rounded-full hover:shadow-2xl hover:shadow-orange-500/50 transform hover:scale-110 transition-all duration-300"
                 >
                   Clear Filters
                 </button>
@@ -178,13 +191,13 @@ const HomePage = ({ onNavigate, cartOpen, setCartOpen }) => {
           <>
             <button 
               onClick={() => setSelectedRestaurant(null)}
-              className="mb-6 text-orange-500 hover:text-orange-600 font-medium flex items-center space-x-2"
+              className="mb-6 text-white bg-orange-500/80 backdrop-blur-sm px-6 py-3 rounded-full hover:bg-orange-600 font-bold flex items-center space-x-2 shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
             >
               <span>← Back to Restaurants</span>
             </button>
 
             {/* Restaurant Details Card */}
-            <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+            <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl p-8 mb-8">
               <div className="flex flex-col md:flex-row md:items-center md:space-x-6">
                 <img 
                   src={selectedRestaurant.image} 
@@ -192,8 +205,8 @@ const HomePage = ({ onNavigate, cartOpen, setCartOpen }) => {
                   className="w-full md:w-32 h-48 md:h-32 rounded-lg object-cover mb-4 md:mb-0"
                 />
                 <div className="flex-1">
-                  <h2 className="text-3xl font-bold text-gray-800 mb-2">{selectedRestaurant.name}</h2>
-                  <p className="text-gray-600 mb-3">{selectedRestaurant.cuisine} Cuisine</p>
+                  <h2 className="text-4xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-3">{selectedRestaurant.name}</h2>
+                  <p className="text-gray-700 mb-4 text-lg font-semibold">{selectedRestaurant.cuisine} Cuisine</p>
                   <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
                     <div className="flex items-center space-x-1 bg-green-50 px-3 py-1 rounded-full">
                       <Star className="w-4 h-4 fill-green-500 text-green-500" />
@@ -212,7 +225,7 @@ const HomePage = ({ onNavigate, cartOpen, setCartOpen }) => {
               </div>
             </div>
 
-            <h3 className="text-2xl font-bold text-gray-800 mb-6">Popular Items</h3>
+            <h3 className="text-3xl font-bold text-white mb-6 drop-shadow-lg">Popular Items</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {selectedRestaurant.dishes.map(dish => (
                 <DishCard 
@@ -228,6 +241,7 @@ const HomePage = ({ onNavigate, cartOpen, setCartOpen }) => {
       </div>
 
       <CartSidebar isOpen={cartOpen} onClose={() => setCartOpen(false)} />
+      </div>
     </div>
   );
 };

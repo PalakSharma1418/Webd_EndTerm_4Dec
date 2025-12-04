@@ -24,12 +24,31 @@ const Navbar = ({ onCartOpen, onNavigate }) => {
           <div className="flex items-center space-x-8">
             <button 
               onClick={() => onNavigate?.('home')}
-              className="flex items-center space-x-2 hover:opacity-80 transition"
+              className="flex items-center space-x-3 hover:opacity-80 transition group"
             >
-              <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
-                <ShoppingCart className="w-6 h-6 text-white" />
+              {/* New Restaurant Plate Logo */}
+              <div className="relative w-10 h-10">
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full group-hover:scale-110 transition-transform"></div>
+                <div className="relative w-10 h-10 flex items-center justify-center">
+                  <svg viewBox="0 0 100 100" className="w-8 h-8">
+                    {/* Plate Circle */}
+                    <circle cx="50" cy="50" r="35" fill="none" stroke="white" strokeWidth="4"/>
+                    {/* Fork */}
+                    <line x1="35" y1="30" x2="35" y2="50" stroke="white" strokeWidth="3"/>
+                    <line x1="32" y1="30" x2="32" y2="40" stroke="white" strokeWidth="2"/>
+                    <line x1="38" y1="30" x2="38" y2="40" stroke="white" strokeWidth="2"/>
+                    {/* Spoon */}
+                    <ellipse cx="65" cy="35" rx="4" ry="6" fill="white"/>
+                    <line x1="65" y1="41" x2="65" y2="50" stroke="white" strokeWidth="3"/>
+                    {/* Knife */}
+                    <line x1="50" y1="65" x2="50" y2="85" stroke="white" strokeWidth="3"/>
+                    <path d="M 47 65 L 50 60 L 53 65" fill="white"/>
+                  </svg>
+                </div>
               </div>
-              <span className="text-xl font-bold text-gray-800">FoodHub</span>
+              <span className="text-xl font-bold bg-gradient-to-r from-orange-600 to-rose-600 bg-clip-text text-transparent">
+                FoodHub
+              </span>
             </button>
             
             <div className="hidden md:flex items-center bg-gray-100 rounded-lg px-4 py-2 w-96">
@@ -61,7 +80,7 @@ const Navbar = ({ onCartOpen, onNavigate }) => {
                     <img
                       src={user?.avatar}
                       alt={user?.name}
-                      className="w-8 h-8 rounded-full"
+                      className="w-8 h-8 rounded-full border-2 border-orange-200"
                     />
                     <span className="text-sm font-medium text-gray-700">{user?.name}</span>
                   </button>
@@ -122,12 +141,12 @@ const Navbar = ({ onCartOpen, onNavigate }) => {
             
             <button 
               onClick={onCartOpen}
-              className="relative flex items-center space-x-2 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition"
+              className="relative flex items-center space-x-2 bg-gradient-to-r from-orange-500 to-rose-500 text-white px-4 py-2 rounded-lg hover:from-orange-600 hover:to-rose-600 transition shadow-lg hover:shadow-xl"
             >
               <ShoppingCart className="w-5 h-5" />
               <span className="text-sm font-medium">Cart</span>
               {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-6 h-6 rounded-full flex items-center justify-center font-bold">
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-6 h-6 rounded-full flex items-center justify-center font-bold animate-pulse">
                   {totalItems}
                 </span>
               )}
@@ -197,7 +216,7 @@ const Navbar = ({ onCartOpen, onNavigate }) => {
                 onCartOpen();
                 setMobileMenuOpen(false);
               }}
-              className="w-full bg-orange-500 text-white px-4 py-2 rounded-lg"
+              className="w-full bg-gradient-to-r from-orange-500 to-rose-500 text-white px-4 py-2 rounded-lg"
             >
               Cart ({totalItems})
             </button>
