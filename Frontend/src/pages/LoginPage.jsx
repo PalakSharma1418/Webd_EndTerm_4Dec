@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Lock, Eye, EyeOff, ShoppingCart, Loader2 } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const LoginPage = ({ onNavigate }) => {
@@ -35,19 +35,47 @@ const LoginPage = ({ onNavigate }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-orange-50 flex items-center justify-center p-4">
-      <div className="max-w-md w-full">
+    <div className="min-h-screen relative flex items-center justify-center p-4">
+      {/* Background Image with Overlay */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: 'url(https://img.freepik.com/premium-photo/food-with-delivery-set-dishes-diet-top-view-free-space-your-text-black-background_187166-25369.jpg)',
+        }}
+      >
+        <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 max-w-md w-full">
         {/* Logo Section */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl shadow-lg mb-4">
-            <ShoppingCart className="w-8 h-8 text-white" />
+          {/* Custom Restaurant Logo */}
+          <div className="inline-flex items-center justify-center w-20 h-20 mb-4 relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full animate-pulse"></div>
+            <div className="relative w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-2xl">
+              <svg viewBox="0 0 100 100" className="w-12 h-12">
+                {/* Plate Circle */}
+                <circle cx="50" cy="50" r="35" fill="none" stroke="#f97316" strokeWidth="3"/>
+                {/* Fork */}
+                <line x1="35" y1="30" x2="35" y2="50" stroke="#f97316" strokeWidth="2.5"/>
+                <line x1="32" y1="30" x2="32" y2="40" stroke="#f97316" strokeWidth="1.5"/>
+                <line x1="38" y1="30" x2="38" y2="40" stroke="#f97316" strokeWidth="1.5"/>
+                {/* Spoon */}
+                <ellipse cx="65" cy="35" rx="4" ry="6" fill="#f97316"/>
+                <line x1="65" y1="41" x2="65" y2="50" stroke="#f97316" strokeWidth="2.5"/>
+                {/* Knife */}
+                <line x1="50" y1="65" x2="50" y2="85" stroke="#f97316" strokeWidth="2.5"/>
+                <path d="M 47 65 L 50 60 L 53 65" fill="#f97316"/>
+              </svg>
+            </div>
           </div>
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Welcome Back</h1>
-          <p className="text-gray-600">Login to your FoodHub account</p>
+          <h1 className="text-4xl font-bold text-white mb-2 drop-shadow-lg">Welcome Back</h1>
+          <p className="text-orange-200 text-lg">Login to your FoodHub account</p>
         </div>
 
         {/* Login Card */}
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl p-8 border border-white/20">
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm">
@@ -56,14 +84,14 @@ const LoginPage = ({ onNavigate }) => {
             )}
 
             {/* Demo Credentials Info */}
-            <div className="bg-blue-50 border border-blue-200 px-4 py-3 rounded-lg">
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 px-4 py-3 rounded-lg">
               <p className="text-sm text-blue-800 font-medium mb-1">Demo Credentials:</p>
               <p className="text-xs text-blue-600">Email: demo@foodhub.com</p>
               <p className="text-xs text-blue-600">Password: demo123</p>
               <button
                 type="button"
                 onClick={handleDemoLogin}
-                className="mt-2 text-xs text-blue-600 hover:text-blue-800 underline"
+                className="mt-2 text-xs text-blue-600 hover:text-blue-800 underline font-medium"
               >
                 Click to auto-fill
               </button>
@@ -118,7 +146,7 @@ const LoginPage = ({ onNavigate }) => {
                 <input type="checkbox" className="w-4 h-4 text-orange-500 rounded focus:ring-orange-500" />
                 <span className="ml-2 text-sm text-gray-600">Remember me</span>
               </label>
-              <button type="button" className="text-sm text-orange-500 hover:text-orange-600">
+              <button type="button" className="text-sm text-orange-500 hover:text-orange-600 font-medium">
                 Forgot password?
               </button>
             </div>
@@ -155,7 +183,7 @@ const LoginPage = ({ onNavigate }) => {
         </div>
 
         {/* Footer */}
-        <p className="text-center text-sm text-gray-500 mt-8">
+        <p className="text-center text-sm text-white/80 mt-8">
           By continuing, you agree to our Terms of Service and Privacy Policy
         </p>
       </div>
