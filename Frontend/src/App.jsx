@@ -1,35 +1,56 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import { CartProvider } from './context/CartContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import ProfilePage from './pages/ProfilePage';
+import OrderTrackingPage from './pages/OrderTrackingPage';
 
+// Simple Router Component
+const AppRouter = () => {
+  const [currentPage, setCurrentPage] = useState('home');
+  const [cartOpen, setCartOpen] = useState(false);
+  const { isAuthenticated } = useAuth();
+
+  const navigate = (page) => {
+    setCurrentPage(page);
+  };
+
+  // Protected Route Handler
+  const renderPage = () => {
+    // Redirect to login if trying to access protected pages
+    if (!isAuthenticated && ['profile', 'order-tracking'].includes(currentPage)) {
+      return <LoginPage onNavigate={navigate} />;
+    }
+
+    switch (currentPage) {
+      case 'login':
+        return <LoginPage onNavigate={navigate} />;
+      case 'register':
+        return <RegisterPage onNavigate={navigate} />;
+      case 'profile':
+        return <ProfilePage onNavigate={navigate} onCartOpen={() => setCartOpen(true)} />;
+      case 'order-tracking':
+        return <OrderTrackingPage onCartOpen={() => setCartOpen(true)} />;
+      case 'home':
+      default:
+        return <HomePage onNavigate={navigate} cartOpen={cartOpen} setCartOpen={setCartOpen} />;
+    }
+  };
+
+  return renderPage();
+};
+
+// Main App Component
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <AuthProvider>
+      <CartProvider>
+        <AppRouter />
+      </CartProvider>
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;
